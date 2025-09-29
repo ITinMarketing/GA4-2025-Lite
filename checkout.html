@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout</title>
+  <script src="analytics.js"></script>
+</head>
+<body>
+  <h1>Оформление заказа</h1>
+  <p id="productInfo"></p>
+
+  <button onclick="submitOrder()">Подтвердить заказ</button>
+
+  <script>
+    // читаем товар из URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productName = urlParams.get("product");
+
+    document.getElementById("productInfo").textContent = 
+      "Вы заказываете: " + productName;
+
+    function submitOrder() {
+      // событие покупки в GA
+      gtag("event", "purchase", {
+        currency: "USD",
+        value: 1,
+        items: [
+          { item_name: productName }
+        ]
+      });
+
+      alert("Заказ оформлен: " + productName);
+    }
+  </script>
+</body>
+</html>
